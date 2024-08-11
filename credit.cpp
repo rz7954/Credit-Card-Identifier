@@ -1,6 +1,7 @@
-#import <cs50.h>
 #import <stdio.h>
 #import <math.h>
+#include <iostream>
+using namespace std;
 
 bool lunh(int csum);
 long long sum(long long card);
@@ -8,13 +9,25 @@ long long firstdigs(long long ccard);
 long long expon(int x, int y);
 
 int carddigits = 1;
-//main has the big daddy if-else branch that checks to see if the card number matches all the criteria for the different types of cards. 
-//fxns to obtain the first 1 or 2 digits of the card based on length as well as luhn's algo is called by main.
-int main(void) 
-{
-    int sumresult = 0;
 
-    long long cardnum = get_long_long ("Enter a credit card number: ");
+int main(void)
+{
+    while(true)
+    {
+    int sumresult = 0;
+    long long cardnum = 0;
+    cout << ("Enter a credit card number: ");
+    cin >> cardnum;
+    //check if the user input is an integer and clear the stream if not
+    if(cin.fail())
+    {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    }
+
+
+    //bool validcard = bool lunh(cardnum); <--- leaving this commented out to see if the simpler condition check below is valid syntatically.
 
     sumresult = sum(cardnum);
 
@@ -34,9 +47,10 @@ int main(void)
     {
         printf("INVALID\n");
     }
+    }
 }
 
-//this is the actual fxn doing the heavy lifting for the luhn algo, the luhn fxn is just a boolean to check fi the result of the sum fxn ends in a 0
+
 long long sum(long long card)
 {
     int even=0;
@@ -64,7 +78,7 @@ long long sum(long long card)
         card = card/10;
         carddigits ++;
     }
-    while(card);
+    while(card != 0);
 
     do
     {
@@ -79,7 +93,7 @@ long long sum(long long card)
     return (result);
 }
 
-long long firstdigs(long long ccard) //fxn to find the first 2 digits of the card number based on the carddigits global variable
+long long firstdigs(long long ccard) //fxn to find the first 2 digits of the card number based on the carddigits variable
 {
     long long fdigs = 0;
     long long digit = 0;
@@ -101,7 +115,7 @@ long long firstdigs(long long ccard) //fxn to find the first 2 digits of the car
     return fdigs;
 }
 
-long long expon(int x, int y) //raises integer x to the power of integer y
+long long expon(int x, int y)
 {
     long result = 1;
     for(int i = 0; i < y; i++)
